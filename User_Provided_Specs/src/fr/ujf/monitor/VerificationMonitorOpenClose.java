@@ -16,7 +16,7 @@ public class VerificationMonitorOpenClose {
 
 	private State currentState = State.NextElement;
 
-	Map<String, FileState> fileState = new HashMap<String, FileState>();
+	Map<String, FileState> streamState = new HashMap<String, FileState>();
 	Map<String, String> streamFile = new HashMap<String, String>();
 
 	// Map<Integer, Integer> enumDs = new HashMap<Integer, Integer>();
@@ -31,19 +31,19 @@ public class VerificationMonitorOpenClose {
 
 	public void updateState(Event e, File f, Object stream) {
 
-		// int idVect = System.identityHashCode(f);
-		// int idEnum = System.identityHashCode(stream);
-
 		String path;
 		FileState s;
 
 		switch (e) {
 		case open:
-			path = f.getAbsolutePath();
-			s = fileState.get(path);
+			path = streamFile.get(stream.toString());
+			if(path == null)
+				path = f.getAbsolutePath();
+			
+			s = streamState.get(path);
 
 			if (s != FileState.OPEN) {
-				fileState.put(path, FileState.OPEN);
+				streamState.put(stream.toString(), FileState.OPEN);
 				streamFile.put(stream.toString(), path);
 				this.currentState = State.OK;
 			} else {
@@ -51,13 +51,22 @@ public class VerificationMonitorOpenClose {
 			}
 			break;
 		case close:
-			path = streamFile.get(stream.toString());
-			s = fileState.get(path);
+
+			s = streamState.get(stream.toString());
 
 			if (s != FileState.OPEN)
 				this.currentState = State.Error;
 			else {
-				fileState.put(path, FileState.CLOSE);
+				streamState.put(stream.toString(), FileState.CLOSE);
+				this.currentState = State.OK;
+			}
+			break;
+			
+		case end:
+	
+			if (streamState.containsValue(FileState.OPEN))
+				this.currentState = State.Error;
+			else {
 				this.currentState = State.OK;
 			}
 			break;
