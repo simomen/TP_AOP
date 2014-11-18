@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Vector;
 
-import fr.ujf.prop.file.FileState;
+import fr.ujf.prop.file1.FileState;
 
 public class VerificationMonitorOpenClose {
 
@@ -18,8 +18,6 @@ public class VerificationMonitorOpenClose {
 
 	Map<String, FileState> streamState = new HashMap<String, FileState>();
 	Map<String, String> streamFile = new HashMap<String, String>();
-
-	// Map<Integer, Integer> enumDs = new HashMap<Integer, Integer>();
 
 	public VerificationMonitorOpenClose() {
 		this.id = DEFAULT_ID;
