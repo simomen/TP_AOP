@@ -2,7 +2,7 @@ package fr.ujf.monitor;
 
 public enum State {
 	DoHasNext("DoHasNext"), DoNext("DoNext"), Elements("Elements"), NextElement(
-			"NextElement"), Update("Update"), Error("Error");
+			"NextElement"), Update("Update"), Error("Error"), OK("OK");
 
 	private String name;
 

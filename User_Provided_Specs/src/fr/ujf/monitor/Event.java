@@ -4,7 +4,7 @@ public enum Event {
 	hasNext("hasNext"), next("next"), hasMoreElements("hasMoreElements"), nextElement(
 			"nextElement"), add("add"), elements("elements"), addToSet(
 			"addToSet"), addToCollection("addToCollection"), removeFromSet(
-			"removeFromSet");
+			"removeFromSet"), open("open"), close("close");
 
 	private String name;
 
