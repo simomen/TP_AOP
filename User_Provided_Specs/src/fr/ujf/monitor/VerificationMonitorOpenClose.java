@@ -16,7 +16,7 @@ public class VerificationMonitorOpenClose {
 
 	private State currentState = State.NextElement;
 
-	Map<String, FileState> streamState = new HashMap<String, FileState>();
+	Map<String, FileState> fileState = new HashMap<String, FileState>();
 	Map<String, String> streamFile = new HashMap<String, String>();
 
 	public VerificationMonitorOpenClose() {
@@ -33,36 +33,40 @@ public class VerificationMonitorOpenClose {
 		FileState s;
 
 		switch (e) {
-		case open:
-			path = streamFile.get(stream.toString());
-			if(path == null)
-				path = f.getAbsolutePath();
-			
-			s = streamState.get(path);
+		case checkOpen:
+			path = f.getAbsolutePath();
+			s = fileState.get(path);
 
 			if (s != FileState.OPEN) {
-				streamState.put(stream.toString(), FileState.OPEN);
-				streamFile.put(stream.toString(), path);
+				fileState.put(path, FileState.OPEN);
 				this.currentState = State.OK;
 			} else {
 				this.currentState = State.Error;
 			}
 			break;
-		case close:
+		case afterOpen:
+			path = f.getAbsolutePath();
+			s = fileState.get(path);
 
-			s = streamState.get(stream.toString());
+			streamFile.put(stream.toString(), path);
+			this.currentState = State.OK;
+
+			break;
+		case close:
+			path = streamFile.get(stream.toString());
+			s = fileState.get(path);
 
 			if (s != FileState.OPEN)
 				this.currentState = State.Error;
 			else {
-				streamState.put(stream.toString(), FileState.CLOSE);
+				fileState.put(path, FileState.CLOSE);
 				this.currentState = State.OK;
 			}
 			break;
-			
+
 		case end:
-	
-			if (streamState.containsValue(FileState.OPEN))
+
+			if (fileState.containsValue(FileState.OPEN))
 				this.currentState = State.Error;
 			else {
 				this.currentState = State.OK;
@@ -91,7 +95,7 @@ public class VerificationMonitorOpenClose {
 
 	public Verdict receiveEvent(Event e, File f, Object stream) {
 		System.out.println("=> Monitor " + this.id + ": received event " + e
-				+ ", vect : " + f + " , enum : " + stream);
+				+ ", file : " + f + " , stream : " + stream);
 		updateState(e, f, stream);
 		emitVerdict(f, stream);
 		return currentVerdict();
