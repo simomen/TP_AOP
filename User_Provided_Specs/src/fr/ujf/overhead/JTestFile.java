@@ -12,83 +12,19 @@ import org.junit.Test;
 public class JTestFile {
 
 	@Test
-	public void testFileReq1_1() {
-try {
+	public void testFileReq1_1() throws IOException{
 
-			
-			File f1 = new File("myFile");
-			File f2 = new File("myFile");
-			File f3 = new File("myFile3");
-					
-			FileInputStream inStr = new FileInputStream(f1);
-			FileInputStream inStr2 = new FileInputStream(f2);
-//			FileInputStream intStr3 = new FileInputStream(f3);
-						
-//			inStr.read();
-//			inStr2.read();
-//			intStr3.read();
-//			
-//			inStr.close();
-			inStr.close();
-//			intStr3.close();
-				
-			System.exit(1);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		File f1 = new File("myFile");
+		FileInputStream inp =  new FileInputStream(f1);;
+		
+		for (int i = 0; i < 10000; i++) {
+			inp = new FileInputStream(f1);
 		}
-	
-	}
-	@Test
-	public void testFileReq1() {
-try {
-
-			
-			File f1 = new File("myFile");
-			File f3 = new File("myFile3");
-					
-			FileInputStream inStr = new FileInputStream(f1);
-			FileInputStream intStr3 = new FileInputStream(f3);
-						
-			inStr.read();
-			intStr3.read();
-			
-			inStr.close();
-			intStr3.close();
-			intStr3.close();
-						
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		
+		for (int i = 0; i < 10000; i++) {
+			inp.close();
 		}
-	
-	}
-	@Test
-	public void testFileReq2() {
-try {
-
-			
-			File f1 = new File("myFile");
-			File f2 = new File("myFile2");
-			File f3 = new File("myFile3");
-					
-			FileInputStream inStr = new FileInputStream(f1);
-			FileOutputStream outStr = new FileOutputStream(f2);
-			FileInputStream intStr2 = new FileInputStream(f3);
-						
-			inStr.read();
-			outStr.write(1);
-			intStr2.read();
-			
-			inStr.close();
-			//outStr.close();
-			intStr2.close();
-						
-			System.exit(1);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//System.exit(1);
 
 	}
 }

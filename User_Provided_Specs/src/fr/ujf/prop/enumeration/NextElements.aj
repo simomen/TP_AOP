@@ -57,9 +57,6 @@ public aspect NextElements {
 			dispatchEvent("hasMoreElements", null, en);
 	}
 
-	// before(Vector vect) : add(vect) {
-	// dispatchEvent("add", vect, null);
-	// }
 
 	boolean around(Vector vect) : add(vect) {
 		Verdict v = dispatchEvent("add", vect, null);

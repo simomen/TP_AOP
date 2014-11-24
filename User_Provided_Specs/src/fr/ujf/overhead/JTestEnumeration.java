@@ -1,7 +1,5 @@
 package fr.ujf.overhead;
 
-import static org.junit.Assert.*;
-
 import java.util.Enumeration;
 import java.util.Vector;
 

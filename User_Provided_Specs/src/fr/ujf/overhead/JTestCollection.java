@@ -17,7 +17,7 @@ public class JTestCollection {
 		Set<Collection<String>> s = new HashSet<Collection<String>>();
 		Collection<String> c1 = new ArrayList<String>();
 
-		for (int i = 0; i < 10000; i++) {
+		for (int i = 0; i < 10000000; i++) {
 			c1.add("OK1");
 		}
 		s.add(c1);
