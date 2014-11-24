@@ -9,20 +9,15 @@ public class TestFileReq1 {
 
 	public static void main(String[] args) {
 		try {
-
 			
 			File f1 = new File("myFile");
 			File f3 = new File("myFile3");
 					
 			FileInputStream inStr = new FileInputStream(f1);
-			FileInputStream intStr3 = new FileInputStream(f3);
-						
-			inStr.read();
-			intStr3.read();
-			
+			FileInputStream inStr2 = new FileInputStream(f1);
+									
 			inStr.close();
-			intStr3.close();
-			intStr3.close();
+			inStr.close();
 						
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

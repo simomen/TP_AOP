@@ -6,7 +6,7 @@ public enum Event {
 			"addToSet"), addToCollection("addToCollection"), removeFromSet(
 			"removeFromSet"), open("open"), close("close"), end("end"), checkOpen(
 			"checkOpen"), afterOpen("afterOpen"), checkClose("checkClose"), afterClose(
-			"afterClose");
+			"afterClose"), checkOpenRead("checkOpenRead"),checkOpenWrite("checkOpenRead");
 
 	private String name;
 

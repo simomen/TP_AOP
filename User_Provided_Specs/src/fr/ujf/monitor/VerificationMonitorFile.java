@@ -9,7 +9,7 @@ import java.util.Vector;
 
 import fr.ujf.prop.file1.FileState;
 
-public class VerificationMonitorOpenClose {
+public class VerificationMonitorFile {
 
 	private static final int DEFAULT_ID = -1;
 	private int id;
@@ -19,11 +19,11 @@ public class VerificationMonitorOpenClose {
 	Map<String, FileState> fileState = new HashMap<String, FileState>();
 	Map<String, String> streamFile = new HashMap<String, String>();
 
-	public VerificationMonitorOpenClose() {
+	public VerificationMonitorFile() {
 		this.id = DEFAULT_ID;
 	}
 
-	public VerificationMonitorOpenClose(int id) {
+	public VerificationMonitorFile(int id) {
 		this.id = id;
 	}
 
@@ -33,17 +33,30 @@ public class VerificationMonitorOpenClose {
 		FileState s;
 
 		switch (e) {
-		case checkOpen:
+		case checkOpenRead:
 			path = f.getAbsolutePath();
 			s = fileState.get(path);
 
-			if (s != FileState.OPEN) {
-				fileState.put(path, FileState.OPEN);
+			if (s != FileState.WRITE) {
+				fileState.put(path, FileState.READ);
 				this.currentState = State.OK;
 			} else {
 				this.currentState = State.Error;
 			}
 			break;
+
+		case checkOpenWrite:
+			path = f.getAbsolutePath();
+			s = fileState.get(path);
+
+			if (s != FileState.READ) {
+				fileState.put(path, FileState.WRITE);
+				this.currentState = State.OK;
+			} else {
+				this.currentState = State.Error;
+			}
+			break;
+
 		case afterOpen:
 			path = f.getAbsolutePath();
 			s = fileState.get(path);
@@ -56,17 +69,28 @@ public class VerificationMonitorOpenClose {
 			path = streamFile.get(stream.toString());
 			s = fileState.get(path);
 
-			if (s != FileState.OPEN)
-				this.currentState = State.Error;
-			else {
-				fileState.put(path, FileState.CLOSE);
+			switch (s) {
+			case OPEN:
+			case READ:
+			case WRITE:
 				this.currentState = State.OK;
+				fileState.put(path, FileState.CLOSE);
+
+				break;
+
+			default:
+				this.currentState = State.Error;
+
+				break;
 			}
+
 			break;
 
 		case end:
 
-			if (fileState.containsValue(FileState.OPEN))
+			if (fileState.containsValue(FileState.OPEN)
+					|| fileState.containsValue(FileState.READ)
+					|| fileState.containsValue(FileState.WRITE))
 				this.currentState = State.Error;
 			else {
 				this.currentState = State.OK;
